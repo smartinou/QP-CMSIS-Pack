@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<package schemaVersion="1.7.7" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.7/schema/PACK.xsd">
+  <vendor>Quantum-Leaps</vendor>
+  <name>CMSIS-QPCPP</name>
+  <description>CMSIS-Pack that allows users to generate and configure QP projects for virtually all Cortex-M devices and various IDEs.</description>
+  <url>file:///home/martin/opt/qp-linux_7.1.3/qp/</url>
+  <supportContact>info@state-machine.com</supportContact>
+  <license>qp/qpcpp/LICENSES/LicenseRef-QL-dual.qlc</license>
+  
+  <releases>
+    <release version="7.1.3" date="2022-11-18">
+      See file qp/version-7.1.3
+    </release>
+  </releases>
+
+  <keywords>
+    <!-- keywords for indexing -->
+    <keyword>Quantum Leaps</keyword>
+    <keyword>arm</keyword>
+    <keyword>framework</keyword>
+    <keyword>fsm</keyword>
+    <keyword>state-machine</keyword>
+    <keyword>actor-model</keyword>
+    <keyword>statechart</keyword>
+    <keyword>embedded-systems</keyword>
+    <keyword>actor</keyword>
+    <keyword>event-driven</keyword>
+    <keyword>rtos</keyword>
+    <keyword>arm-cortex-m</keyword>
+    <keyword>uml-state-machine</keyword>
+    <keyword>hierarchical-state-machine</keyword>
+    <keyword>embedded-c</keyword>
+    <keyword>active-object</keyword>
+    <keyword>samek</keyword>
+    <keyword>QP</keyword>
+    <keyword>QP/C</keyword>
+    <keyword>QP/C++</keyword>
+    <keyword>QP/Spy</keyword>
+    <keyword>QP/QUTest</keyword>
+    <keyword>real time</keyword>
+    <keyword>embedded framework</keyword>
+  </keywords>
+
+  <taxonomy>
+    <description Cclass="RTOS">RTOS</description>
+  </taxonomy>
+
+  <!-- apis section (optional - for Application Programming Interface descriptions) -->
+  <!-- 
+  <apis>
+  </apis>
+  -->
+
+  <!-- boards section (mandatory for Board Support Packs) -->
+  <!-- 
+  <boards>
+  </boards>
+  -->
+
+  <!-- devices section (mandatory for Device Family Packs) -->
+  <!--
+  <devices>
+  </devices>
+  -->
+
+  <!-- examples section (optional for all Software Packs)-->
+  <!--
+  <examples>
+  </examples>
+  -->
+  
+  <!-- conditions section (optional for all Software Packs)-->
+  <conditions>
+    <condition id="ARMCC5">
+      <require Tcompiler="ARMCC" Toptions="AC5"/>
+    </condition>
+    <condition id="ARMCC6">
+      <require Tcompiler="ARMCC" Toptions="AC6"/>
+    </condition>
+    <condition id="ARMCC">
+      <accept condition="ARMCC5"/>
+      <accept condition="ARMCC6"/>
+    </condition>
+    <condition id="GCC">
+      <require Tcompiler="GCC"/>
+    </condition>
+    <condition id="IAR">
+      <require Tcompiler="IAR"/>
+    </condition>
+
+    <!-- defines the condition with the ID "Cortex-M" -->
+    <condition id="Cortex-M">
+      <description>True if the active device has a Cortex-M or SC000 or SC3000 processor </description>
+      <!-- any of the following cores will make the condition resolve to true -->
+      <accept Dcore="Cortex-M0"/>
+      <accept Dcore="Cortex-M0+"/>
+      <accept Dcore="Cortex-M1"/>
+      <accept Dcore="Cortex-M23"/>
+      <accept Dcore="Cortex-M3"/>
+      <accept Dcore="Cortex-M33"/>
+      <accept Dcore="Cortex-M35P"/>
+      <accept Dcore="Cortex-M85"/>
+      <accept Dcore="Cortex-M33"/>
+      <accept Dcore="Cortex-M4"/>
+      <accept Dcore="Cortex-M7"/>
+      <accept Dcore="SC000"/>
+      <accept Dcore="SC300"/>
+    </condition>
+
+    <condition id="ARMv6">
+      <description>ARMv6 processor based devices</description>
+      <accept Dcore="Cortex-M0"/>
+      <accept Dcore="Cortex-M0+"/>
+      <accept Dcore="Cortex-M1"/>
+      <accept Dcore="SC000"/>
+    </condition>
+
+    <condition id="ARMv7 No FPU">
+      <description>ARMv7 processor based devices not using Floating Point Unit</description>
+      <accept Dcore="Cortex-M3"/>
+      <accept Dcore="Cortex-M4" Dfpu="NO_FPU"/>
+      <accept Dcore="Cortex-M7" Dfpu="NO_FPU"/>
+      <accept Dcore="SC300"/>
+    </condition>
+
+    <condition id="ARMv7 with FPU">
+      <description>ARMv7 processor based devices using Floating Point Unit (SP or DP)</description>
+      <accept Dcore="Cortex-M4" Dfpu="FPU"/>
+      <accept Dcore="Cortex-M7" Dfpu="SP_FPU"/>
+      <accept Dcore="Cortex-M7" Dfpu="DP_FPU"/>
+    </condition>
+
+    <condition id="ARMv7">
+      <description>ARMv7 processor based devices</description>
+      <accept condition="ARMv7 No FPU"/>
+      <accept condition="ARMv7 with FPU"/>
+    </condition>
+<!--
+    <condition id="ARMv8">
+      <accept Dcore="Cortex-M23"/>
+      <accept Dcore="Cortex-M33"/>
+      <accept Dcore="Cortex-M35P"/>
+      <accept Dcore="Cortex-M85"/>
+    </condition>
+-->
+    <condition id="ARMv6 ARMCC">
+      <require condition="ARMv6"/>
+      <require condition="ARMCC"/>
+    </condition>
+
+    <condition id="ARMv6 GCC">
+      <require condition="ARMv6"/>
+      <require condition="GCC"/>
+    </condition>
+
+    <condition id="ARMv6 IAR">
+      <require condition="ARMv6"/>
+      <require condition="IAR"/>
+    </condition>
+
+    <condition id="ARMv7 ARMCC">
+      <require condition="ARMv7"/>
+      <require condition="ARMCC"/>
+    </condition>
+<!--
+    <condition id="ARMv7 No FPU ARMCC">
+      <require condition="ARMv7 No FPU"/>
+      <require condition="ARMCC"/>
+    </condition>
+-->
+    <condition id="ARMv7 GCC">
+      <require condition="ARMv7"/>
+      <require condition="GCC"/>
+    </condition>
+
+    <condition id="ARMv7 No FPU GCC">
+      <require condition="ARMv7 No FPU"/>
+      <require condition="GCC"/>
+    </condition>
+
+    <condition id="ARMv7 IAR">
+      <require condition="ARMv7"/>
+      <require condition="IAR"/>
+    </condition>
+
+    <condition id="ARMv7 No FPU IAR">
+      <require condition="ARMv7 No FPU"/>
+      <require condition="IAR"/>
+    </condition>
+
+    <!-- Conditions for RTOS::QP/C++ components -->
+    <condition id="QP/C++ QEP">
+      <description>Conditions required for QP/C++ QEP component</description>
+      <require condition="Cortex-M"/>
+    </condition>
+
+    <condition id="QP/C++ QF">
+      <description>Conditions required for QP/C++ QF component</description>
+      <require Cclass="Utility" Cbundle="QP/C++" Cgroup="QEP"/>
+    </condition>
+
+    <condition id="QP/C++ QS">
+      <description>Conditions required for QP/C++ QS component</description>
+      <require Cclass="Utility" Cbundle="QP/C++" Cgroup="QF"/>
+    </condition>
+
+    <condition id="QP/C++ QUTest">
+      <description>Conditions required for QP/C++ QUTest component</description>
+      <require Cclass="Utility" Cbundle="QP/C++" Cgroup="QS"/>
+    </condition>
+
+    <!-- Conditions for QP/C++ native ports -->
+    <condition id="QP/C++ Native Ports">
+      <description>Conditions required for QP/C++ native ports</description>
+      <require Cclass="Utility" Cbundle="QP/C++" Cgroup="QF"/>
+    </condition>
+
+    <!-- Conditions for QP/C++ third-party ports -->
+    <condition id="QP/C++ ARM CMSIS FreeRTOS">
+      <description>Bundle of FreeRTOS for Cortex-M</description>
+      <require condition="QP/C++ QF"/>
+      <require Cclass="RTOS" Cbundle="FreeRTOS" Cgroup="Core"/>
+    </condition>
+
+    <condition id="QP/C++ ARM CMSIS embOS">
+      <description>Bundle of embOS (external pack) for Cortex-M</description>
+      <require condition="QP/C++ QF"/>
+      <require Cclass="RTOS" Cbundle="embOS" Cgroup="embOS kernel configuration"/>
+    </condition>
+
+    <condition id="QP/C++ embOS local">
+      <description>Bundle of embOS (local sources) for Cortex-M</description>
+      <require condition="QP/C++ QF"/>
+    </condition>
+
+    <condition id="QP/C++ ThreadX local">
+      <description>Bundle of ThreadX (local sources) for Cortex-M</description>
+      <require condition="QP/C++ QF"/>
+      <require Dcore="Cortex-M4"/>
+    </condition>
+
+<!-- Third-party port for ThreadX with external pack not yet supported.
+    <condition id="QP/C++ ARM CMSIS ThreadX Native">
+      <description>Bundle of ThreadX for Cortex-M</description>
+      <require condition="QP/C++ QF"/>
+      <require Cclass="RTOS" Cbundle="embOS" Cgroup="Core"/>
+    </condition>
+-->
+
+    <condition id="QP/C++ uCOS2 local">
+      <description>Bundle of uC-OS2 (local sources) for Cortex-M</description>
+      <require condition="QP/C++ QF"/>
+    </condition>
+  </conditions>
+
+  <!-- component section (optional for all Software Packs)-->
+  <components>
+    <!-- CMSIS:RTOS:QP components/bundles -->
+    <bundle Cbundle="QP/C++" Cclass="Utility" Cversion="7.1.3">
+      <description>QP™/C++ Real-Time Embedded Framework (RTEF) for Cortex-M</description>
+      <doc>https://www.state-machine.com/qpcpp</doc>
+
+        <component Cgroup="QEP" condition="QP/C++ QEP">
+          <description>QEP (Hierarchical State Machines)</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_QEP                 /* QP/CPP QEP */
+          </RTE_Components_h>
+          <files>
+            <file category="include" name="qp/qpcpp/include/"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qep_hsm.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qep_msm.cpp"/>
+          </files>
+        </component>
+
+        <component Cgroup="QF" condition="QP/C++ QF">
+          <description>QF (Active Object Framework)</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_QF                  /* QP/CPP QF */
+          </RTE_Components_h>
+          <files>
+            <file category="sourceCpp" name="qp/qpcpp/include/qstamp.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_act.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_defer.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_dyn.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_mem.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_ps.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_qact.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_qeq.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_qmact.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_time.cpp"/>
+          </files>
+        </component>
+
+        <component Cgroup="QS" condition="QP/C++ QS">
+          <description>QS ("Quantum Spy" Software Tracing)</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_QS                  /* QP/CPP QS */
+          </RTE_Components_h>
+          <files>
+            <file category="sourceCpp" name="qp/qpcpp/src/qs/qs.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qs/qs_64bit.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qs/qs_fp.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qs/qs_rx.cpp"/>
+            <!-- <file category="sourceCpp" name="qp/qpcpp/src/qs/qstamp.cpp"/> -->
+          </files>
+          <Pre_Include_Local_Component_h>
+            #define Q_SPY
+          </Pre_Include_Local_Component_h>
+        </component>
+
+        <component Cgroup="QUTest" condition="QP/C++ QUTest">
+          <description>QUTest™ (pronounced "cutest") is a unit testing harness (a.k.a. unit testing framework)</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_QUTEST              /* QP/CPP QUTest */
+          </RTE_Components_h>
+          <files>
+            <file category="sourceCpp" name="qp/qpcpp/src/qs/qutest.cpp"/>
+          </files>
+          <Pre_Include_Local_Component_h>
+            #define Q_SPY
+            #define Q_UTEST                0
+          </Pre_Include_Local_Component_h>
+        </component>
+
+        <component Cgroup="Ports" Csub="Native" Cvariant="QV" isDefaultVariant="true" condition="QP/C++ Native Ports">
+          <description>Native (bare-metal) non-preemptive, cooperative QV kernel for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_QV             /* QP/CPP QV Kernel */
+          </RTE_Components_h>
+          <files>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_actq.cpp"/>
+
+            <file category="header" name="qp/qpcpp/include/qv.hpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qv/qv.cpp"/>
+
+            <file category="include" condition="ARMCC" name="qp/qpcpp/ports/arm-cm/qv/armclang/"/>
+            <file category="sourceCpp" condition="ARMCC" name="qp/qpcpp/ports/arm-cm/qv/armclang/qv_port.cpp"/>
+            <file category="include" condition="IAR" name="qp/qpcpp/ports/arm-cm/qv/iar/"/>
+            <file category="sourceCpp" condition="IAR" name="qp/qpcpp/ports/arm-cm/qv/iar/qv_port.cpp"/>
+            <file category="include" condition="GCC" name="qp/qpcpp/ports/arm-cm/qv/gnu/"/>
+            <file category="sourceCpp" condition="GCC" name="qp/qpcpp/ports/arm-cm/qv/gnu/qv_port.cpp"/>
+          </files>
+        </component>
+
+        <component Cgroup="Ports" Csub="Native" Cvariant="QK" condition="QP/C++ Native Ports">
+          <description>Native (bare-metal) preemptive, non-blocking QK kernel for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_QK             /* QP/CPP QK Kernel */
+          </RTE_Components_h>
+          <files>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_actq.cpp"/>
+
+            <file category="header" name="qp/qpcpp/include/qk.hpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qk/qk.cpp"/>
+
+            <file category="include" condition="ARMCC" name="qp/qpcpp/ports/arm-cm/qk/armclang/"/>
+            <file category="sourceCpp" condition="ARMCC" name="qp/qpcpp/ports/arm-cm/qk/armclang/qk_port.cpp"/>
+            <file category="include" condition="IAR" name="qp/qpcpp/ports/arm-cm/qk/iar/"/>
+            <file category="sourceCpp" condition="IAR" name="qp/qpcpp/ports/arm-cm/qk/iar/qk_port.cpp"/>
+            <file category="include" condition="GCC" name="qp/qpcpp/ports/arm-cm/qk/gnu/"/>
+            <file category="sourceCpp" condition="GCC" name="qp/qpcpp/ports/arm-cm/qk/gnu/qk_port.cpp"/>
+          </files>
+        </component>
+
+        <component Cgroup="Ports" Csub="Native" Cvariant="QXK" condition="QP/C++ Native Ports">
+          <description>Native (bare-metal) preemptive, dual-mode QXK real-time kernel for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_QXK            /* QP/CPP QXK Kernel */
+          </RTE_Components_h>
+          <files>
+            <file category="sourceCpp" name="qp/qpcpp/src/qf/qf_actq.cpp"/>
+
+            <file category="header" name="qp/qpcpp/include/qxk.hpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qxk/qxk.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qxk/qxk_mutex.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qxk/qxk_sema.cpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/src/qxk/qxk_xthr.cpp"/>
+
+            <file category="include" condition="ARMCC" name="qp/qpcpp/ports/arm-cm/qxk/armclang/"/>
+            <file category="sourceCpp" condition="ARMCC" name="qp/qpcpp/ports/arm-cm/qxk/armclang/qxk_port.cpp"/>
+            <file category="include" condition="IAR" name="qp/qpcpp/ports/arm-cm/qxk/iar/"/>
+            <file category="sourceCpp" condition="IAR" name="qp/qpcpp/ports/arm-cm/qxk/iar/qxk_port.cpp"/>
+            <file category="include" condition="GCC" name="qp/qpcpp/ports/arm-cm/qxk/gnu/"/>
+            <file category="sourceCpp" condition="GCC" name="qp/qpcpp/ports/arm-cm/qxk/gnu/qxk_port.cpp"/>
+          </files>
+        </component>
+
+        <component Cgroup="Ports" Csub="Third-Party RTOS" Cvariant="FreeRTOS" condition="QP/C++ ARM CMSIS FreeRTOS">
+          <description>Generic platform-independent QP/C++ port to FreeRTOS kernel (external pack, version 10) for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_FREERTOS       /* QP/CPP FreeRTOS Kernel, external pack */
+          </RTE_Components_h>
+          <files>
+            <file category="include" name="qp/qpcpp/ports/freertos/"/>
+            <file category="sourceCpp" name="qp/qpcpp/ports/freertos/qf_port.cpp"/>
+          </files>
+        </component>
+
+<!--
+        <component Cgroup="Ports" Csub="Third-Party RTOS" Cvariant="FreeRTOS local" condition="QP/C++ ARM CMSIS FreeRTOS">
+          <description>Generic platform-independent QP/C++ port to FreeRTOS kernel (local sources) for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_FREERTOS_LOCAL /* QP/CPP FreeRTOS Kernel, local sources */
+          </RTE_Components_h>
+          <files>
+            <file category="include" name="qp/qpcpp/ports/freertos/"/>
+            <file category="sourceCpp" name="qp/qpcpp/ports/freertos/qf_port.cpp"/>
+
+            <file category="include" name="qp/qpcpp/3rd_party/FreeRTOS/Source/include"/>
+            <file category="sourceC" name="qp/qpcpp/3rd_party/FreeRTOS/Source/croutine.c"/>
+            <file category="sourceC" name="qp/qpcpp/3rd_party/FreeRTOS/Source/event_groups.c"/>
+            <file category="sourceC" name="qp/qpcpp/3rd_party/FreeRTOS/Source/list.c"/>
+            <file category="sourceC" name="qp/qpcpp/3rd_party/FreeRTOS/Source/queue.c"/>
+            <file category="sourceC" name="qp/qpcpp/3rd_party/FreeRTOS/Source/stream_buffer.c"/>
+            <file category="sourceC" name="qp/qpcpp/3rd_party/FreeRTOS/Source/tasks.c"/>
+            <file category="sourceC" name="qp/qpcpp/3rd_party/FreeRTOS/Source/timers.c"/>
+            <file category="sourceC" name="qp/qpcpp/3rd_party/FreeRTOS/Source/croutine.c"/>
+
+            <file category="sourceC" condition="" name="qp/qpcpp/3rd_party/FreeRTOS/Source/portable/GCC/ARM_CM0/port.c"/>
+          </files>
+        </component>
+-->
+
+        <component Cgroup="Ports" Csub="Third-Party RTOS" Cvariant="embOS pack" condition="QP/C++ ARM CMSIS embOS">
+          <description>Generic platform-independent QP/C++ port to embOS kernel (external pack) for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_EMBOS          /* QP/CPP embOS Kernel, external pack */
+          </RTE_Components_h>
+          <files>
+            <file category="include" name="qp/qpcpp/ports/embos/"/>
+            <file category="sourceCpp" name="qp/qpcpp/ports/embos/qf_port.cpp"/>
+          </files>
+        </component>
+
+        <component Cgroup="Ports" Csub="Third-Party RTOS" Cvariant="embOS local" condition="QP/C++ embOS local">
+          <description>Generic platform-independent QP/C++ port to embOS kernel (local sources) for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_EMBOS_LOCAL    /* QP/CPP embOS Kernel, local sources */
+          </RTE_Components_h>
+          <files>
+            <file category="include" name="qp/qpcpp/ports/embos/"/>
+            <file category="sourceCpp" name="qp/qpcpp/ports/embos/qf_port.cpp"/>
+
+            <!-- libosT<Architecture><VFP_support><Endianness><LibMode><Errata>.a -->
+
+            <file category="include" condition="GCC" name="qp/qpcpp/3rd_party/embOS-gnu/Start/Inc/"/>
+            <!-- Cortex-M0/M0+/M1, No hardware VFP support, Big endian, Release -->
+            <file category="library" condition="ARMv6 GCC" name="qp/qpcpp/3rd_party/embOS-gnu/Start/Lib/libosT6BR.a"/>
+            <!-- Cortex-M3/M4/M7, No hardware VFP support, Little endian, Release -->
+            <file category="library" condition="ARMv7 No FPU GCC" name="qp/qpcpp/3rd_party/embOS-gnu/Start/Lib/libosT7LR.a"/>
+            <!-- Cortex-M3/M4/M7, VFP with softfp floating-point ABI, Little endian, Release -->
+            <file category="library" condition="ARMv7 GCC" name="qp/qpcpp/3rd_party/embOS-gnu/Start/Lib/libosT7VLR.a"/>
+
+            <file category="include" condition="IAR" name="qp/qpcpp/3rd_party/embOS-iar/Start/Inc/"/>
+            <!-- Cortex-M0/M0+/M1, No hardware VFP support, Big endian, Release -->
+            <file category="library" condition="ARMv6 IAR" name="qp/qpcpp/3rd_party/embOS-iar/Start/Lib/os6m_tl__r.a"/>
+            <!-- Cortex-M3/M4/M7, No hardware VFP support, Little endian, Release -->
+            <file category="library" condition="ARMv7 No FPU IAR" name="qp/qpcpp/3rd_party/embOS-iar/Start/Lib/os7m_tl__r.a"/>
+            <!-- Cortex-M3/M4/M7, VFP with softfp floating-point ABI, Little endian, Release -->
+            <file category="library" condition="ARMv7 IAR" name="qp/qpcpp/3rd_party/embOS-iar/Start/Lib/os7m_tlv_r.a"/>
+          </files>
+        </component>
+
+
+        <!--Express Logic ThreadX is now MicroSoft Azure.
+        Code can be found here: https://github.com/azure-rtos/threadx
+        Apparently some CMSIS wrapper exists for CMSIS-RTOS2 compliance,
+        according to this site: https://wiki.st.com/stm32mcu/wiki/Introduction_to_THREADX#CMSIS-RTOS_API_Support
+        Refer to these to create a variant with external ThreadX pack.
+        -->
+        <component Cgroup="Ports" Csub="Third-Party RTOS" Cvariant="ThreadX local" condition="QP/C++ ThreadX local">
+          <description>Generic platform-independent QP/C++ port to embOS native kernel (local sources) for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_THREADX_LOCAL      /* QP/CPP ThreadX Kernel, local sources */
+          </RTE_Components_h>
+          <files>
+            <file category="header" name="qp/qpcpp/ports/threadx/qep_port.hpp"/>
+            <file category="header" name="qp/qpcpp/ports/threadx/qf_port.hpp"/>
+            <file category="header" name="qp/qpcpp/ports/threadx/qs_port.hpp"/>
+            <file category="sourceCpp" name="qp/qpcpp/ports/threadx/qf_port.cpp"/>
+
+            <file category="include" name="qp/qpcpp/3rd_party/threadx/common/inc/"/>
+
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_allocate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_pool_cleanup.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_pool_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_pool_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_pool_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_pool_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_pool_performance_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_pool_performance_system_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_pool_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_block_release.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_allocate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_cleanup.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_performance_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_performance_system_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_pool_search.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_byte_release.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_block_allocate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_block_pool_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_block_pool_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_block_pool_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_block_pool_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_block_release.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_byte_allocate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_byte_pool_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_byte_pool_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_byte_pool_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_byte_pool_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_byte_pool_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_event_flags_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_event_flags_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_event_flags_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_event_flags_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_event_flags_set.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_event_flags_set_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_mutex_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_mutex_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_mutex_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_mutex_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_mutex_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_mutex_put.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_flush.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_front_send.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_receive.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_send.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_queue_send_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_semaphore_ceiling_put.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_semaphore_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_semaphore_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_semaphore_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_semaphore_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_semaphore_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_semaphore_put.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_semaphore_put_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_entry_exit_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_preemption_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_priority_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_relinquish.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_reset.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_resume.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_suspend.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_terminate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_time_slice_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_thread_wait_abort.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_timer_activate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_timer_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_timer_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_timer_deactivate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_timer_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/txe_timer_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_cleanup.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_performance_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_performance_system_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_set.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_event_flags_set_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_initialize_high_level.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_initialize_kernel_enter.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_initialize_kernel_setup.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_misra.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_cleanup.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_performance_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_performance_system_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_priority_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_mutex_put.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_cleanup.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_flush.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_front_send.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_performance_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_performance_system_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_receive.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_send.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_queue_send_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_ceiling_put.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_cleanup.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_performance_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_performance_system_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_prioritize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_put.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_semaphore_put_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_entry_exit_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_identify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_performance_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_performance_system_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_preemption_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_priority_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_relinquish.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_reset.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_resume.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_shell_entry.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_sleep.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_stack_analyze.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_stack_error_handler.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_stack_error_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_suspend.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_system_preempt_check.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_system_resume.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_system_suspend.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_terminate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_timeout.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_time_slice.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_time_slice_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_thread_wait_abort.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_time_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_activate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_change.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_create.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_deactivate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_delete.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_expiration_process.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_performance_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_performance_system_info_get.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_system_activate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_system_deactivate.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_timer_thread_entry.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_time_set.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_buffer_full_notify.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_disable.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_enable.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_event_filter.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_event_unfilter.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_initialize.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_interrupt_control.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_isr_enter_insert.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_isr_exit_insert.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_object_register.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_object_unregister.c"/>
+            <file category="source" name="qp/qpcpp/3rd_party/threadx/common/src/tx_trace_user_event_insert.c"/>
+
+            <file category="include" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/inc/"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_initialize_low_level.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_thread_context_restore.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_thread_context_save.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_thread_interrupt_control.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_thread_interrupt_disable.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_thread_interrupt_restore.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_thread_schedule.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_thread_stack_build.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_thread_system_return.s"/>
+            <file category="source" condition="ARMCC5" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac5/src/tx_timer_interrupt.s"/>
+
+            <file category="include" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/inc/"/>
+            <file category="source" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/src/tx_initialize_low_level.S"/>
+            <file category="source" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/src/tx_thread_context_restore.S"/>
+            <file category="source" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/src/tx_thread_context_save.S"/>
+            <file category="source" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/src/tx_thread_interrupt_control.S"/>
+            <file category="source" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/src/tx_thread_schedule.S"/>
+            <file category="source" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/src/tx_thread_stack_build.S"/>
+            <file category="source" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/src/tx_thread_system_return.S"/>
+            <file category="source" condition="ARMCC6" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/ac6/src/tx_timer_interrupt.S"/>
+
+            <file category="include" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/inc/"/>
+            <file category="source" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/src/tx_initialize_low_level.S"/>
+            <file category="source" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/src/tx_thread_context_restore.S"/>
+            <file category="source" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/src/tx_thread_context_save.S"/>
+            <file category="source" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_control.S"/>
+            <file category="source" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/src/tx_thread_schedule.S"/>
+            <file category="source" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/src/tx_thread_stack_build.S"/>
+            <file category="source" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/src/tx_thread_system_return.S"/>
+            <file category="source" condition="GCC" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/gnu/src/tx_thread_system_return.S"/>
+
+            <file category="include" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/inc/"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_iar.c"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_initialize_low_level.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_misra.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_thread_context_restore.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_thread_context_save.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_thread_interrupt_control.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_thread_interrupt_disable.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_thread_interrupt_restore.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_thread_schedule.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_thread_stack_build.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_thread_system_return.s"/>
+            <file category="source" condition="IAR" name="qp/qpcpp/3rd_party/threadx/ports/cortex_m4/iar/src/tx_timer_interrupt.s"/>
+          </files>
+        </component>
+
+        <!-- [MG] uC-OS2 is now open source.
+        Doc can be found here: https://weston-embedded.com/micrium/overview
+        Source code can be found here: https://github.com/weston-embedded/uC-OS2
+        There is no CMSIS pack for it, but one is required for setting the condition,
+        unless the code of version 2.93.00 is used from the QP distribution.
+        -->
+
+        <component Cgroup="Ports" Csub="Third-Party RTOS" Cvariant="uCOS2 local" condition="QP/C++ uCOS2 local">
+          <description>Generic platform-independent QP/C++ port to uC-OS2 native kernel for Cortex-M</description>
+          <RTE_Components_h>
+            #define RTE_UTILITY_QP_CPP_PORT_UCOS2_LOCAL    /* QP/CPP uC-OS2 Kernel, local sources */
+          </RTE_Components_h>
+          <files>
+            <file category="include" name="qp/qpcpp/ports/uc-os2/"/>
+            <file category="sourceCpp" name="qp/qpcpp/ports/uc-os2/qf_port.cpp"/>
+
+            <file category="include" name="qp/qpcpp/3rd_party/uC-OS2/Source/"/>
+            <file category="source" name="qp/qpcpp/3rd_party/uC-OS2/Source/ucos_ii.c"/>
+
+            <file category="header" attr="config" name="qp/qpcpp/3rd_party/uC-OS2/Cfg/Template/app_cfg.h" version="1.0.0"/>
+            <file category="header" attr="config" name="qp/qpcpp/3rd_party/uC-OS2/Cfg/Template/os_cfg.h" version="1.0.0"/>
+            <file category="source" attr="template" name="qp/qpcpp/3rd_party/uC-OS2/Cfg/Template/app_hooks.c" version="1.0.0" select="Application hooks"/>
+
+            <!-- ARMv6 M0/M0+/M1-->
+            <file category="sourceC" condition="ARMv6" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/os_cpu_c.c"/>
+
+            <file category="include" condition="ARMv6 ARMCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/ARM/"/>
+            <file category="source" condition="ARMv6 ARMCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/ARM/os_cpu_a.asm"/>
+            <file category="source" condition="ARMv6 ARMCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/ARM/os_dbg.c"/>
+
+            <file category="include" condition="ARMv6 GCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/GNU/"/>
+            <file category="source" condition="ARMv6 GCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/GNU/os_cpu_a.S"/>
+            <file category="source" condition="ARMv6 GCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/GNU/os_dbg.c"/>
+
+            <file category="include" condition="ARMv6 IAR" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/IAR/"/>
+            <file category="source" condition="ARMv6 IAR" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/IAR/os_cpu_a.asm"/>
+            <file category="source" condition="ARMv6 IAR" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/IAR/os_dbg.c"/>
+
+            <!-- ARMv7 M3/M4/M7-->
+            <file category="sourceC" condition="ARMv7" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/os_cpu_c.c"/>
+
+            <file category="include" condition="ARMv7 ARMCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/ARM/"/>
+            <file category="source" condition="ARMv7 ARMCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/ARM/os_cpu_a.asm"/>
+            <file category="source" condition="ARMv7 ARMCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/ARM/os_dbg.c"/>
+
+            <file category="include" condition="ARMv7 GCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/GNU/"/>
+            <file category="source" condition="ARMv7 GCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/GNU/os_cpu_a.S"/>
+            <file category="source" condition="ARMv7 GCC" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/GNU/os_dbg.c"/>
+
+            <file category="include" condition="ARMv7 IAR" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/IAR/"/>
+            <file category="source" condition="ARMv7 IAR" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/IAR/os_cpu_a.asm"/>
+            <file category="source" condition="ARMv7 IAR" name="qp/qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv7-M/IAR/os_dbg.c"/>
+          </files>
+        </component>
+
+        <!-- Ports to Third-Party OS -->
+        <!-- POSIX-QV -->
+        <!-- POSIX -->
+    </bundle>
+
+
+  </components>
+  
+  <!-- optional taxonomy section for defining new component Class and Group names -->
+  <!--
+  <taxonomy>
+  </taxonomy>
+  -->
+  
+</package>
