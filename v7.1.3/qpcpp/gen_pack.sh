@@ -74,7 +74,7 @@ PACKCHK_DEPS="
 # - tag       Tag annotations only
 PACK_CHANGELOG_MODE=""
 
-PACK_VERSION="v7.1.3"
+QP_VERSION="v7.1.3"
 
 # custom pre-processing steps
 function preprocess() {
@@ -82,11 +82,15 @@ function preprocess() {
   # before populating the pack build folder
 
   # Create a clean folder.
-  mkdir -p qp
-  cd qp
+  QP_DIR=qp
+  if [ -d "$QP_DIR" ]; then
+    rm -rf $QP_DIR
+  fi
+  mkdir $QP_DIR
+  cd $QP_DIR
 
   # Acquire sources from repos.
-  git clone https://github.com/QuantumLeaps/qpcpp.git --recurse-submodules --depth 1 --branch ${PACK_VERSION}
+  git clone https://github.com/QuantumLeaps/qpcpp.git --recurse-submodules --depth 1 --branch ${QP_VERSION}
 
   # Silent warnings for GCC .s files.
   mv qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/GNU/os_cpu_a.s qpcpp/3rd_party/uC-OS2/Ports/ARM-Cortex-M/ARMv6-M/GNU/os_cpu_a.S
