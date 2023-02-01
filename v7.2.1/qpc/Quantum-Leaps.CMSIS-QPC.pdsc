@@ -4,7 +4,7 @@
   <vendor>Quantum-Leaps</vendor>
   <name>CMSIS-QPC</name>
   <description>CMSIS-Pack that allows users to generate and configure QP projects for virtually all Cortex-M devices and various IDEs.</description>
-  <url>https://github.com/smartinou/QP-CMSIS-Pack/</url>
+  <url>https://github.com/smartinou/QP-CMSIS-Pack/releases/download/v0.1.0/</url>
   <supportContact>info@state-machine.com</supportContact>
   <license>qp/qpc/LICENSES/LicenseRef-QL-dual.qlc</license>
   
