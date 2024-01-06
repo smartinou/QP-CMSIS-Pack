@@ -304,9 +304,9 @@
             <file category="sourceCpp" name="qp/qpcpp/src/qs/qs_rx.cpp"/>
             <!-- <file category="sourceCpp" name="qp/qpcpp/src/qs/qstamp.cpp"/> -->
           </files>
-          <Pre_Include_Local_Component_h>
+          <Pre_Include_Global_h>
             #define Q_SPY
-          </Pre_Include_Local_Component_h>
+          </Pre_Include_Global_h>
         </component>
 
         <component Cgroup="QUTest" condition="QP/C++ QUTest">
@@ -317,10 +317,10 @@
           <files>
             <file category="sourceCpp" name="qp/qpcpp/src/qs/qutest.cpp"/>
           </files>
-          <Pre_Include_Local_Component_h>
+          <Pre_Include_Global_h>
             #define Q_SPY
             #define Q_UTEST                0
-          </Pre_Include_Local_Component_h>
+          </Pre_Include_Global_h>
         </component>
 
         <component Cgroup="Ports" Csub="Native" Cvariant="QV" isDefaultVariant="true" condition="QP/C++ Native Ports">

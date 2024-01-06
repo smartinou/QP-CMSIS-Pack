@@ -305,9 +305,9 @@
             <file category="sourceC" name="qp/qpc/src/qs/qs_rx.c"/>
             <!--<file category="sourceC" name="qp/qpc/src/qs/qstamp.c"/> -->
           </files>
-          <Pre_Include_Local_Component_h>
+          <Pre_Include_Global_h>
             #define Q_SPY
-          </Pre_Include_Local_Component_h>
+          </Pre_Include_Global_h>
         </component>
 
         <component Cgroup="QUTest" condition="QP/C QUTest">
@@ -318,10 +318,10 @@
           <files>
             <file category="sourceC" name="qp/qpc/src/qs/qutest.c"/>
           </files>
-          <Pre_Include_Local_Component_h>
+          <Pre_Include_Global_h>
             #define Q_SPY
             #define Q_UTEST                0
-          </Pre_Include_Local_Component_h>
+          </Pre_Include_Global_h>
         </component>
 
         <component Cgroup="Ports" Csub="Native" Cvariant="QV" isDefaultVariant="true" condition="QP/C Native Ports">
@@ -734,6 +734,13 @@
         </component>
 
     </bundle>
+
+    <bundle Cbundle="lwIP" Cclass="Network" Cversion="2.2.0">
+      <description>lwIP (Lightweight IP stack)</description>
+      <doc>lwip/doc/doxygen/output/index.html</doc>
+
+    </bundle>
+
   </components>
   
   <!-- optional taxonomy section for defining new component Class and Group names -->
