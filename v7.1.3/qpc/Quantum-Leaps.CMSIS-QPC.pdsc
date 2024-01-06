@@ -734,13 +734,6 @@
         </component>
 
     </bundle>
-
-    <bundle Cbundle="lwIP" Cclass="Network" Cversion="2.2.0">
-      <description>lwIP (Lightweight IP stack)</description>
-      <doc>lwip/doc/doxygen/output/index.html</doc>
-
-    </bundle>
-
   </components>
   
   <!-- optional taxonomy section for defining new component Class and Group names -->
