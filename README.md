@@ -35,5 +35,16 @@ To generate the packs, the scripts in this repo rely on [Bash library for gen-pa
     * Subsequent runs can be called without the downloading repositories using `--no-preproces` switch.
     * The `.pack` archive is available in the output folder: qpcpp/output/Quantum-Leaps.CMSIS-QPCPP.x.y.z.pack for the QP/C++ product.
     
+## Installation
+
+Packs can also be installed from the available releases.
+
+The packs are installed using [cpackget](https://github.com/Open-CMSIS-Pack/cpackget). Use one of the two following methods to installed the selected packs:
+
+1. Download the packs from the available releases, then call:
+   `cpackget add <path_to_downloaded_pack/Quantum-Leaps.CMSIS-QPCPP.x.y.z.pack>`
+2. Specify the path of the released pack when calling `cpackget`:
+   `cpackget https://github.com/smartinou/QP-CMSIS-Pack/releases/download/v0.1.0/Quantum-Leaps.CMSIS-QPCPP.x.y.z.pack`
+
 ## Testing
 TODO
