@@ -1,6 +1,6 @@
 # QP-CMSIS-Pack
 
-The QP-CMSIS-Pack project provides the files to generate an [Open-CMSIS-Pack](https://www.open-cmsis-pack.org/)-compatible pack for the popular [QP&trade Real-Time Embedded Frameworks (RTEFs)](https://www.state-machine.com/products/qp) by [Quantum-Leaps](https://www.state-machine.com/about)
+The QP-CMSIS-Pack project provides the files to generate an [Open-CMSIS-Pack](https://www.open-cmsis-pack.org/)-compatible pack for the popular [QP :tm: Real-Time Embedded Frameworks (RTEFs)](https://www.state-machine.com/products/qp) by [Quantum-Leaps](https://www.state-machine.com/about)
 
 ## Description
 
